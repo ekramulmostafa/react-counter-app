@@ -25,31 +25,41 @@ class Counter extends Component {
       </ul>
     )
   }
+  disableNegativeButton = () => {
+    console.log(this.props.counter.value)
+    if (this.props.counter.value === 0) return true
+    else return false
+  }
   // handleImcreament = product => {
   //   console.log(product)
   //   this.setState({ count: this.state.count + 1 })
   // }
   render () {
     let classes = this.getBadgeClasses()
-
+    let disabledState = this.disableNegativeButton()
+    const { onDecrement, onDelete, onIncrement, children, counter } = this.props
     return (
       <React.Fragment>
-        {this.props.children}
+        {children}
         {/* <img src={this.state.image} alt='peep' /> */}
         {/* <span style={this.styles} className='badge badge-primary m-2'> */}
         <span className={classes}>{this.formatCount()}</span>
         <button
-          onClick={() => this.props.onIncrement(this.props.counter)}
+          onClick={() => onIncrement(counter)}
           // onClick={() => this.handleImcreament({ id: 1 })}
           // onClick={this.handleImcreament}
-          className='btn btn-secondary btn-sm'
+          className='btn btn-secondary btn-sm m-2'
         >
-          Increament
+          +
         </button>
         <button
-          onClick={this.props.onDelete}
-          className='btn btn-danger btn-sm m-2'
+          onClick={() => onDecrement(counter)}
+          className='btn btn-secondary btn-sm m-2'
+          disabled={disabledState}
         >
+          -
+        </button>
+        <button onClick={onDelete} className='btn btn-danger btn-sm m-2'>
           Delete
         </button>
         {/* {this.state.tags.length === 0 && 'Please create tags first.'} */}
